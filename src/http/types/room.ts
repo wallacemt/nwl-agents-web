@@ -13,3 +13,18 @@ export type CreateRoomRequest = {
 export type CreateRoomResponse = {
   id: string;
 };
+
+export type GetRoomQuestionsResponse = Array<{
+  id: string;
+  questions: string;
+  answer: string | null;
+  createdAt: string;
+}>;
+
+export type CreateQuestionRequest = {
+   question: string;
+};
+
+export type CreateQuestionResponse = {
+  questionId: string;
+};
