@@ -3,6 +3,7 @@ export type GetRoomsResponse = Array<{
   name: string;
   questionsCount: number;
   createdAt: string;
+ 
 }>;
 
 export type CreateRoomRequest = {
@@ -19,12 +20,14 @@ export type GetRoomQuestionsResponse = Array<{
   questions: string;
   answer: string | null;
   createdAt: string;
+   isGeneratingAnswer?: boolean;
 }>;
 
 export type CreateQuestionRequest = {
-   question: string;
+  question: string;
 };
 
 export type CreateQuestionResponse = {
   questionId: string;
+  answer: string;
 };

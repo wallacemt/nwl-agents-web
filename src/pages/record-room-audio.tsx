@@ -44,22 +44,7 @@ export function RecordRoomAudio() {
     const result = await response.json();
     console.log(result);
   }
-
-  async function startRecording() {
-    if (!isRecordingSupported) {
-      alert("O seu navegador não suporta gravação");
-      return;
-    }
-    setIsRecording(true);
-
-    const audio = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        sampleRate: 44_100,
-      },
-    });
-
+  function createRecorder(audio: MediaStream) {
     recorder.current = new MediaRecorder(audio, {
       mimeType: "audio/webm",
       audioBitsPerSecond: 64_000,
@@ -79,6 +64,26 @@ export function RecordRoomAudio() {
     };
 
     recorder.current.start();
+  }
+  async function startRecording() {
+    if (!isRecordingSupported) {
+      alert("O seu navegador não suporta gravação");
+      return;
+    }
+    setIsRecording(true);
+    const audio = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        sampleRate: 44_100,
+      },
+    });
+
+    createRecorder(audio);
+    intervalRef.current = setInterval(() => {
+      recorder.current?.stop();
+      createRecorder(audio);
+    }, 5000);
   }
   return (
     <div className="flex h-screen flex-col items-center justify-center">
